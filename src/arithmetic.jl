@@ -52,16 +52,28 @@ end
 
 
 function div(x::Decimal, y::Decimal, precision::Integer=16, round::RoundingMode=RoundDown)
-    x = setexponent(x, y.q - precision)
+    if x.q > (p = y.q - precision)
+        x = setexponent(x, p)
+    else
+        y = setexponent(y, x.q + precision)
+    end
     c = div(x.c, y.c, round)
-    Decimal(c, precision)
+    Decimal(c, -precision)
 end
 
 const Zero = Decimal(0, 0)
 const One  = Decimal(1, 0)
 zero(::Type{Decimal}) = Zero
 one(::Type{Decimal}) = One
+eps(x::Decimal) = Decimal(1, x.q)
 
 function inv(x::Decimal, precision::Integer=16, round::RoundingMode=RoundDown)
     div(One, x, precision, round)
+end
+
+function ==(x::Decimal, y::Decimal)
+    q = min(x.q, y.q)
+    x = setexponent(x, q)
+    y = setexponent(y, q)
+    x.c == y.c
 end
