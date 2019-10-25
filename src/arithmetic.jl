@@ -82,7 +82,7 @@ function div(x::Decimal, y::Decimal, precision::Integer=PRECISION, round::Roundi
     Decimal(c, -precision)
 end
 
-/(x, y) = div(x, y)
+/(x::Decimal, y::Decimal) = div(x, y)
 
 const Zero = Decimal(0, 0)
 const One  = Decimal(1, 0)
