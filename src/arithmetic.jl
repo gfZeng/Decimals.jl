@@ -1,9 +1,14 @@
 
+
+Base.promote_rule(::Type{Decimal}, ::Type{<:Real}) = Decimal
+Base.promote_rule(::Type{BigFloat}, ::Type{Decimal}) = Decimal
+Base.promote_rule(::Type{BigInt}, ::Type{Decimal}) = Decimal
+
 const RoundUnnecessary = RoundingMode{:RoundUnnecessary}()
 const RoundFloor       = RoundingMode{:RoundFloor}()
 const RoundCeiling     = RoundingMode{:Ceiling}()
 
-const PRECISION, ROUNDING = 16, RoundDown
+PRECISION, ROUNDING = 16, RoundDown
 
 function setprecision!(; precision::Integer=16, rounding::RoundingMode=RoundDown)
     global PRECISION = precision
