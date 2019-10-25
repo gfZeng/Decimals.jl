@@ -6,7 +6,8 @@ import Base: ==, +, -, *, /, div, inv,
              eps, parse, print
 
 
-export Decimal, @d_str, strip_trailing_zeros
+export Decimal, @d_str, strip_trailing_zeros,
+       RoundUnnecessary, RoundFloor, RoundCeiling
 
 struct Decimal <: AbstractFloat
     c::BigInt  # coefficient

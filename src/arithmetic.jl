@@ -1,8 +1,15 @@
+
 const RoundUnnecessary = RoundingMode{:RoundUnnecessary}()
 const RoundFloor       = RoundingMode{:RoundFloor}()
 const RoundCeiling     = RoundingMode{:Ceiling}()
 
+const PRECISION, ROUNDING = 16, RoundDown
 
+function setprecision!(; precision::Integer=16, rounding::RoundingMode=RoundDown)
+    global PRECISION = precision
+    global ROUNDING = rounding
+    precision, rounding
+end
 
 function div(x::BigInt, y::Union{Integer, BigInt}, round::RoundingMode)
     c, m = divrem(x, y)
@@ -65,7 +72,7 @@ end
 *(x::Decimal, y::Decimal) = Decimal(x.c * y.c, x.q + y.q)
 
 
-function div(x::Decimal, y::Decimal, precision::Integer=16, round::RoundingMode=RoundDown)
+function div(x::Decimal, y::Decimal, precision::Integer=PRECISION, round::RoundingMode=ROUNDING)
     if x.q > (p = y.q - precision)
         x = setexponent(x, p)
     else
@@ -75,13 +82,15 @@ function div(x::Decimal, y::Decimal, precision::Integer=16, round::RoundingMode=
     Decimal(c, -precision)
 end
 
+/(x, y) = div(x, y)
+
 const Zero = Decimal(0, 0)
 const One  = Decimal(1, 0)
 zero(::Type{Decimal}) = Zero
 one(::Type{Decimal}) = One
 eps(x::Decimal) = Decimal(1, x.q)
 
-function inv(x::Decimal, precision::Integer=16, round::RoundingMode=RoundDown)
+function inv(x::Decimal, precision::Integer=PRECISION, round::RoundingMode=ROUNDING)
     div(One, x, precision, round)
 end
 
