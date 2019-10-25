@@ -38,6 +38,20 @@ function setexponent(x::Decimal, q::Integer, round::RoundingMode=RoundUnnecessar
     Decimal(c, q)
 end
 
+function strip_trailing_zeros(x::Decimal)
+    c, q = x.c, x.q
+    while true
+        d, m = divrem(c, big"10")
+        if !iszero(m)
+            break
+        end
+        c = d
+        q += 1
+    end
+    Decimal(c, q)
+end
+
+
 function +(x::Decimal, y::Decimal)
     q = min(x.q, y.q)
     x = setexponent(x, q)
@@ -77,3 +91,17 @@ function ==(x::Decimal, y::Decimal)
     y = setexponent(y, q)
     x.c == y.c
 end
+
+function <(x::Decimal, y::Decimal)
+    q = min(x.q, y.q)
+    x = setexponent(x, q)
+    y = setexponent(y, q)
+    return x.c < y.c
+end
+
+<=(x::Decimal, y::Decimal) = x < y || x == y
+
+number(x::Decimal) = x.c * 10.0^x.q
+
+signbit(x::Decimal) = signbit(x.c)
+sign(x::Decimal) = sign(x.c)
