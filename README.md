@@ -14,3 +14,6 @@ d1 > d2
 div(d1, d2, 16, RoundUp)
 inv(d1)
 ```
+
+## Compares
+The package provides the same features with another [Decimals.jl](https://github.com/JuliaMath/Decimals.jl/blob/master/src/Decimals.jl) package. But the implements is more simple, and the use more friendly, like Java BigDecimal.
