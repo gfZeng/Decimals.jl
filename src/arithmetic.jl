@@ -51,6 +51,9 @@ function setexponent(x::Decimal, q::Integer, round::RoundingMode=RoundUnnecessar
 end
 
 function strip_trailing_zeros(x::Decimal)
+
+    iszero(x.c) && return Zero
+
     c, q = x.c, x.q
     while true
         d, m = divrem(c, big"10")

@@ -1,4 +1,4 @@
-@testset "arithmetic" begin
+@testset "Arithmetic" begin
     Decimals.setprecision!(precision=4)
     @test d"1" / 3 == 0.3333
 
