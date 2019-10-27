@@ -99,21 +99,15 @@ function inv(x::Decimal, precision::Integer=PRECISION, round::RoundingMode=ROUND
     div(One, x, precision, round)
 end
 
-function ==(x::Decimal, y::Decimal)
-    q = min(x.q, y.q)
-    x = setexponent(x, q)
-    y = setexponent(y, q)
-    x.c == y.c
-end
 
-function <(x::Decimal, y::Decimal)
-    q = min(x.q, y.q)
-    x = setexponent(x, q)
-    y = setexponent(y, q)
-    return x.c < y.c
+for comp in (:(==), :<, :>, :<=, :>=)
+    @eval function $comp(x::Decimal, y::Decimal)
+        q = min(x.q, y.q)
+        x = setexponent(x, q)
+        y = setexponent(y, q)
+        $comp(x.c, y.c)
+    end
 end
-
-<=(x::Decimal, y::Decimal) = x < y || x == y
 
 number(x::Decimal) = x.c * 10.0^x.q
 
