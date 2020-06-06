@@ -8,8 +8,6 @@ const RoundUnnecessary = RoundingMode{:RoundUnnecessary}()
 const RoundFloor       = RoundingMode{:RoundFloor}()
 const RoundCeiling     = RoundingMode{:Ceiling}()
 
-PRECISION, ROUNDING = 16, RoundDown
-
 function setprecision!(; precision::Integer=16, rounding::RoundingMode=RoundDown)
     global PRECISION = precision
     global ROUNDING = rounding
@@ -77,7 +75,14 @@ end
 -(x::Decimal) = Decimal(-x.c, x.q)
 -(x::Decimal, y::Decimal) = x + (-y)
 
-*(x::Decimal, y::Decimal) = Decimal(x.c * y.c, x.q + y.q)
+
+function mul(x::Decimal, y::Decimal, precision::Integer=PRECISION, round::RoundingMode=ROUNDING)
+    p = Decimal(x.c * y.c, x.q + y.q)
+    p = p.q >= -precision ? p : strip_trailing_zeros(p)
+    p.q >= -precision ? p : setexponent(p, -precision, round)
+end
+
+*(x::Decimal, y::Decimal) = mul(x, y)
 
 
 function div(x::Decimal, y::Decimal, precision::Integer=PRECISION, round::RoundingMode=ROUNDING)

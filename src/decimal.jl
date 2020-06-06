@@ -21,11 +21,12 @@ end
 
 function print(io::IO, x::Decimal)
     x = strip_trailing_zeros(x)
-    s = string(x.c)
+    isneg = sign(x) < 0
+    s = string(abs(x.c))
     len = length(s)
     exp = x.q + len - 1
 
-    if abs(exp) >= 18
+    if abs(exp) >= PRECISION
         s = len == 1 ? s : s[1] * '.' * s[2:end]
         s *=  'E' * string(exp)
     elseif exp >= 0
@@ -35,5 +36,5 @@ function print(io::IO, x::Decimal)
         s = '0'^n * s
         s = s[1] * '.' * s[2:end]
     end
-    print(io, s)
+    print(io, sign(x) < 0 ? '-' * s : s)
 end

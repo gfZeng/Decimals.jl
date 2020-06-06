@@ -9,6 +9,8 @@ import Base: +, -, *, /, div, inv,
 export Decimal, @d_str, strip_trailing_zeros,
        RoundUnnecessary, RoundFloor, RoundCeiling
 
+PRECISION, ROUNDING = 9, RoundDown
+
 struct Decimal <: AbstractFloat
     c::BigInt  # coefficient
     q::Integer # exponent
