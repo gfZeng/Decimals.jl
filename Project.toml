@@ -2,7 +2,3 @@ name = "Decimals"
 uuid = "1b6a1443-ab2e-4ee6-acff-ce8ee01f4e8c"
 authors = ["Isaac Tsang <ndtm.idea@gmail.com>"]
 version = "0.1.0"
-
-[deps]
-Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
-JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
