@@ -15,9 +15,9 @@
 
       @test string(Decimals.One) == "1"
       @test string(x) == "420"
-      @test string(Decimal(1234, -4)) == "1234E-4"
-      @test string(Decimal(123400, -6)) == "123400E-6"
-      @test string(strip_trailing_zeros(Decimal(123400, -6))) == "1234E-4"
+      @test string(Decimal(1234, -4)) == "0.1234"
+      @test string(Decimal(123400, -6)) == "0.1234"
+      @test string(strip_trailing_zeros(Decimal(123400, -6))) == "0.1234"
 
       @testset "Hash" begin
             d = Dict(d"4.2" => true, d"0.5" => true)

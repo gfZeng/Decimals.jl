@@ -8,13 +8,7 @@ const RoundUnnecessary = RoundingMode{:RoundUnnecessary}()
 const RoundFloor       = RoundingMode{:RoundFloor}()
 const RoundCeiling     = RoundingMode{:Ceiling}()
 
-function setprecision!(; precision::Integer=16, rounding::RoundingMode=RoundDown)
-    global PRECISION = precision
-    global ROUNDING = rounding
-    precision, rounding
-end
-
-function div(x::BigInt, y::Union{Integer, BigInt}, round::RoundingMode)
+function divide(x::BigInt, y::Union{Integer, BigInt}, round::RoundingMode)
     c, m = divrem(x, y)
     if round === RoundUnnecessary
         m == 0 || throw(DivideError())
@@ -43,7 +37,7 @@ function setexponent(x::Decimal, q::Integer, round::RoundingMode=RoundUnnecessar
     if p > 0
         c = x.c * big"10"^p
     else
-        c = div(x.c, big"10"^-p, round)
+        c = divide(x.c, big"10"^-p, round)
     end
     Decimal(c, q)
 end
@@ -91,7 +85,7 @@ function div(x::Decimal, y::Decimal, precision::Integer=PRECISION, round::Roundi
     else
         y = setexponent(y, x.q + precision)
     end
-    c = div(x.c, y.c, round)
+    c = divide(x.c, y.c, round)
     Decimal(c, -precision)
 end
 

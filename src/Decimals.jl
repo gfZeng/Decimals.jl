@@ -9,11 +9,18 @@ import Base: +, -, *, /, div, inv,
 export Decimal, @d_str, strip_trailing_zeros,
        RoundUnnecessary, RoundFloor, RoundCeiling
 
-PRECISION, ROUNDING = 9, RoundDown
 
 struct Decimal <: AbstractFloat
     c::BigInt  # coefficient
     q::Integer # exponent
+end
+
+PRECISION, ROUNDING = 9, RoundDown
+
+function setprecision!(; precision::Integer=16, rounding::RoundingMode=RoundDown)
+    global PRECISION = precision
+    global ROUNDING = rounding
+    precision, rounding
 end
 
 include("decimal.jl")

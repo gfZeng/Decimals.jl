@@ -11,4 +11,10 @@
     @test d"1" / 3 == 0.334 == Decimals.One / Decimal(3)
     @test d"-1" / 3 == -0.334 == -Decimals.One / Decimal(3)
     @test d"1" + d"2" == d"3" == d"40E-1" - d"100E-2"
+    @test Decimals.setexponent(d"3.3333", -3, RoundDown) ==  d"3.333"
+    @test Decimals.setexponent(d"-3.3333", -3, RoundDown) ==  d"-3.333"
+    @test Decimals.setexponent(d"3.3333", -3, RoundFloor) ==  d"3.333"
+    @test Decimals.setexponent(d"-3.3333", -3, RoundFloor) ==  d"-3.334"
+    @test Decimals.setexponent(d"3.3333", -3, RoundCeiling) ==  d"3.334"
+    @test Decimals.setexponent(d"-3.3333", -3, RoundCeiling) ==  d"-3.333"
 end
